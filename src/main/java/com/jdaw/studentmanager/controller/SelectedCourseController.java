@@ -123,6 +123,8 @@ public class SelectedCourseController {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            ajaxResult.setSuccess(false);
+            ajaxResult.setMessage("移除失败，");
         }
         return ajaxResult;
     }

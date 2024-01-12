@@ -217,7 +217,7 @@
                                 data: jsonObj,
                                 success: function(data){
                                     if(data.message){
-                                        $.messager.alert("消息提醒",data.success,"info");
+                                        $.messager.alert("消息提醒",data.message,"info");
                                         //刷新表格
                                         $("#dataList").datagrid("reload");
                                     } else{

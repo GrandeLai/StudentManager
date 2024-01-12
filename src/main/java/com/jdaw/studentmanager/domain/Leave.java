@@ -12,6 +12,10 @@ public class Leave {
     public static int LEAVE_STATUS_DISAGREE = -1;//不同意
     private int id;
     private int studentId;
+
+    private String startDate;//请假开始时间
+
+    private String endDate;//请假结束时间
     private String info;//请假理由
     private int status = LEAVE_STATUS_WAIT;//请假条状态
     private String remark;//批复内容
@@ -31,6 +35,22 @@ public class Leave {
     public void setStudentId(int studentId) {
         this.studentId = studentId;
     }
+
+    public String getStartDate() {
+        return startDate;
+    }
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
 
     public String getInfo() {
         return info;

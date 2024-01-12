@@ -65,7 +65,8 @@ public class SelectedCourseServiceImpl implements SelectedCourseService {
     public int deleteSelectedCourse(Integer id) {
         SelectedCourse selectedCourse = selectedCourseMapper.findById(id);
         courseMapper.deleteStudentNum(selectedCourse.getCourseId());
-        return selectedCourseMapper.deleteSelectedCourse(id);
+        int res=selectedCourseMapper.deleteSelectedCourse(id);
+        return res;
     }
 
     @Override

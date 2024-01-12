@@ -7,13 +7,19 @@ import com.jdaw.studentmanager.service.StudentService;
 import com.jdaw.studentmanager.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.*;
 
 /**
@@ -241,5 +247,30 @@ public class StudentController {
             ajaxResult.setMessage("修改失败");
         }
         return ajaxResult;
+    }
+
+    @GetMapping("/download/student_portrait/{filename}")
+    public void downloadFile(@PathVariable("filename") String filename, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // 获取图片文件的绝对路径，假设图片存储在"/path/to/images/"目录下
+        String filePath = request.getServletContext().getRealPath("/upload/teacher_portrait/") + filename;
+
+        // 检查文件是否存在
+        File file = new File(filePath);
+        if (!file.exists()) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+
+        // 设置响应内容类型为图片
+        response.setContentType(Files.probeContentType(file.toPath()));
+
+        // 设置响应头，指定文件名以及内容的长度
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
+        response.setContentLength((int) file.length());
+
+        // 将文件内容复制到响应输出流中
+        try (InputStream inputStream = new FileInputStream(file)) {
+            FileCopyUtils.copy(inputStream, response.getOutputStream());
+        }
     }
 }

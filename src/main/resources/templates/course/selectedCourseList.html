@@ -146,7 +146,9 @@
                                     }else if(msg == "not found"){
                                         $.messager.alert("消息提醒","不存在该选课记录!","info");
                                     }else{
-                                        $.messager.alert("消息提醒","删除失败!","warning");
+                                        $.messager.alert("消息提醒","删除成功!","info");
+                                        //刷新表格
+                                        $("#dataList").datagrid("reload");
                                         return;
                                     }
                                 }

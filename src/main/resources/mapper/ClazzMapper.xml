@@ -5,6 +5,7 @@
     <resultMap type="com.jdaw.studentmanager.domain.Clazz" id="ClazzInfo">
         <result column="id" property="id"/>
         <result column="name" property="name"/>
+        <result column="grade" property="grade"/>
         <result column="info" property="info"/>
     </resultMap>
 
@@ -26,7 +27,7 @@
     </select>
 
     <insert id="addClazz" parameterType="Clazz">
-        insert into s_clazz(name,info) values(#{name},#{info})
+        insert into s_clazz(name,grade,info) values(#{name},#{grade},#{info})
     </insert>
 
     <delete id="deleteClazz" parameterType="java.util.ArrayList">
@@ -40,7 +41,7 @@
     </delete>
 
     <update id="editClazz" parameterType="Clazz">
-        update s_clazz set name = #{name},info = #{info} where id = #{id}
+        update s_clazz set name = #{name},grade=#{grade},info = #{info} where id = #{id}
     </update>
 
     <select id="findByName" parameterType="String" resultType="Clazz">

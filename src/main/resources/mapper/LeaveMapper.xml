@@ -6,6 +6,8 @@
         <result column="id" property="id"/>
         <result column="student_id" property="studentId"/>
         <result column="info" property="info"/>
+        <result column="start_date" property="startDate"/>
+        <result column="end_date" property="endDate"/>
         <result column="status" property="status"/>
         <result column="remark" property="remark"/>
     </resultMap>
@@ -28,8 +30,8 @@
     </select>
 
     <insert id="addLeave" parameterType="Leave">
-        insert into s_leave(student_id,info)
-        values(#{studentId},#{info})
+        insert into s_leave(student_id,start_date,end_date,info)
+        values(#{studentId},#{startDate},#{endDate},#{info})
     </insert>
 
     <delete id="deleteLeave" parameterType="int">
@@ -37,11 +39,11 @@
     </delete>
 
     <update id="editLeave" parameterType="Leave">
-        update s_leave set student_id = #{studentId},info = #{info} where id = #{id}
+        update s_leave set student_id = #{studentId},start_date = #{startDate},end_date = #{endDate},info = #{info} where id = #{id}
     </update>
 
     <update id="checkLeave" parameterType="Leave">
-        update s_leave set student_id = #{studentId},info = #{info},status = #{status},remark = #{remark} where id = #{id}
+        update s_leave set student_id = #{studentId},start_date = #{startDate},end_date = #{endDate},info = #{info},status = #{status},remark = #{remark} where id = #{id}
     </update>
 
 <!--    <update id="addStudentNum" parameterType="int">-->

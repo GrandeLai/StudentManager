@@ -45,6 +45,8 @@
                             }
                         }
                     },
+                    {field:'startDate',title:'请假开始时间',width:200},
+                    {field:'endDate',title:'请假结束时间',width:200},
                     {field:'info',title:'请假原因',width:400},
                     {field:'status',title:'状态',width:80,
                         formatter: function(value,row,index){
@@ -159,8 +161,10 @@
                             } else{
                                 var studentid = $("#edit_studentList").combobox("getValue");
                                 var id = $("#dataList").datagrid("getSelected").id;
+                                var startDate = $("#edit_startDate").textbox("getValue");
+                                var endDate = $("#edit_endDate").textbox("getValue");
                                 var info = $("#edit_info").textbox("getValue");
-                                var data = {id:id, studentId:studentid, info:info};
+                                var data = {id:id, studentId:studentid, startDate:startDate,endDate:endDate,info:info};
 
                                 $.ajax({
                                     type: "post",
@@ -200,6 +204,8 @@
                     var selectRow = $("#dataList").datagrid("getSelected");
                     //设置值
                     $("#edit_info").textbox('setValue',selectRow.info);
+                    $("#edit_startDate").textbox('setValue',selectRow.startDate);
+                    $("#edit_endDate").textbox('setValue',selectRow.endDate);
                     //$("#edit-id").val(selectRow.id);
                     var studentId = selectRow.studentId;
                     setTimeout(function(){
@@ -240,9 +246,11 @@
                                 var studentid = $("#dataList").datagrid("getSelected").studentId;
                                 var id = $("#dataList").datagrid("getSelected").id;
                                 var info = $("#dataList").datagrid("getSelected").info;
+                                var startDate = $("#dataList").datagrid("getSelected").startDate;
+                                var endDate = $("#dataList").datagrid("getSelected").endDate;
                                 var remark = $("#check_remark").textbox("getValue");
                                 var status = $("#check_statusList").combobox("getValue");
-                                var data = {id:id, studentId:studentid, info:info,remark:remark,status:status};
+                                var data = {id:id, studentId:studentid,startDate:startDate,endDate:endDate, info:info,remark:remark,status:status};
 
                                 $.ajax({
                                     type: "post",
@@ -424,6 +432,18 @@
         });
         /*]]>*/
     </script>
+    <script>
+        $.extend($.fn.validatebox.defaults.rules, {
+            md: {
+                validator: function(value, param){
+                    var d1 = $.fn.datebox.defaults.parser(param[0]);
+                    var d2 = $.fn.datebox.defaults.parser(value);
+                    return d2<=d1;
+                },
+                message: '结束日期需要在开始日期之后'
+            }
+        })
+    </script>
 </head>
 <body>
 <!-- 数据列表 -->
@@ -436,7 +456,7 @@
     <div style="float: left;" class="datagrid-btn-separator"></div>
     <div th:if="${session.usertype == '2'}" style="float: left;"><a id="edit" href="javascript:;" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true">修改</a></div>
     <div th:if="${session.usertype == '1' || session.usertype == '3'}" style="float: left;"><a id="check" href="javascript:;" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true">审核</a></div>
-    <div style="float: left; margin-right: 10px;"><a id="delete" href="javascript:;" class="easyui-linkbutton" data-options="iconCls:'icon-some-delete',plain:true">删除</a></div>
+    <div th:if="${session.usertype == '1' || session.usertype == '3'}" style="float: left; margin-right: 10px;"><a id="delete" href="javascript:;" class="easyui-linkbutton" data-options="iconCls:'icon-some-delete',plain:true">删除</a></div>
     <div style="float: left;" class="datagrid-btn-separator"></div>
     <div style="margin-top: 3px;">
         学生：<input id="studentList" class="easyui-textbox" name="studentid" />
@@ -456,9 +476,21 @@
                 </td>
             </tr>
             <tr>
+                <td>请假开始时间:</td>
+                <td>
+                    <input id="startDate" name="startDate" style="width: 100px; height: 100px;" class="easyui-datebox" data-options="multiline:true,required:true, missingMessage:'请假时间不能为空'" ></input>
+                </td>
+            </tr>
+            <tr>
+                <td>请假结束时间:</td>
+                <td>
+                    <input id="endDate" name="endDate" style="width: 100px; height: 100px;" class="easyui-datebox" data-options="multiline:true,required:true, missingMessage:'请假时间不能为空'" ></input>
+                </td>
+            </tr>
+            <tr>
                 <td>请假原因:</td>
                 <td>
-                    <textarea id="info" name="info" style="width: 300px; height: 160px;" class="easyui-textbox" data-options="multiline:true,required:true, missingMessage:'请假原因不能为空'" ></textarea>
+                    <textarea id="info" name="info" style="width: 300px; height: 100px;" class="easyui-textbox" data-options="multiline:true,required:true, missingMessage:'请假原因不能为空'" ></textarea>
                 </td>
             </tr>
         </table>
@@ -476,9 +508,21 @@
                 </td>
             </tr>
             <tr>
+                <td>请假开始时间:</td>
+                <td>
+                    <input id="edit_startDate" name="startDate" style="width: 100px; height: 100px;" class="easyui-datebox" data-options="multiline:true,required:true, missingMessage:'请假时间不能为空'" ></input>
+                </td>
+            </tr>
+            <tr>
+                <td>请假结束时间:</td>
+                <td>
+                    <input id="edit_endDate" name="endDate" style="width: 100px; height: 100px;" class="easyui-datebox" data-options="multiline:true,required:true, missingMessage:'请假时间不能为空'" ></input>
+                </td>
+            </tr>
+            <tr>
                 <td>请假原因:</td>
                 <td>
-                    <textarea id="edit_info" name="info" style="width: 300px; height: 160px;" class="easyui-textbox" data-options="multiline:true,required:true, missingMessage:'请假原因不能为空'" ></textarea>
+                    <textarea id="edit_info" name="info" style="width: 300px; height: 100px;" class="easyui-textbox" data-options="multiline:true,required:true, missingMessage:'请假原因不能为空'" ></textarea>
                 </td>
             </tr>
         </table>

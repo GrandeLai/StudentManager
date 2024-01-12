@@ -462,6 +462,13 @@
 			})
 		};
 
+		function downloadLink(linkId) {
+			var link = document.getElementById(linkId);
+			var data = $(window.frames["photo_target"].document).find("body pre").text();
+
+			link.setAttribute('href',"/download/teacher_portrait/"+data.portrait_path+".jpg")
+		}
+
 		/*]]>*/
 	</script>
 </head>
@@ -568,6 +575,11 @@
 				<td><input onchange="filechange1(event)" type="file" name="file" multiple></td>
 				<td><div id="imgd"></div></td>
 			</tr>
+			<tr>
+				<td>下載</td>
+				<td><a id="down_portrait-path" href="/download/teacher_portrait/{VALUE}" download >Download Image</a></td>
+			</tr>
+
 		</table>
 	</form>
 </div>

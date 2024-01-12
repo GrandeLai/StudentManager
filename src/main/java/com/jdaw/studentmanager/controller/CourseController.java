@@ -132,7 +132,7 @@ public class CourseController {
         }catch (Exception e){
             e.printStackTrace();
             ajaxResult.setSuccess(false);
-            ajaxResult.setMessage("删除失败,该班级存在老师或学生");
+            ajaxResult.setMessage("删除失败,该课程存在老师或学生");
         }
         return ajaxResult;
     }
